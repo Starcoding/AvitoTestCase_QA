@@ -23,19 +23,23 @@ def load_file(file_path):
         try:
             handler = json.load(structure_file)
         except:
-            print("Error with structure")
             error()
     return handler
 
 
 def validate_top(parametr, values_list):
+    temp_parent_param = {
+        "id": parametr['id'],
+        "title": parametr['title'],
+        "value": ""
+    }
     for values in values_list:
-                if parametr['id'] == values['id']:
-                    temp_parent_param = {
-                            "id": parametr['id'],
-                            "title": parametr['title'],
-                            "value": values['value']
-                        }
+        if parametr['id'] == values['id']:
+            temp_parent_param = {
+                    "id": parametr['id'],
+                    "title": parametr['title'],
+                    "value": values['value']
+                }
     return temp_parent_param
 
 
@@ -44,13 +48,13 @@ def validate_middle(parametr, value, values_list):
         "id": value['id'],
         "title": value['title']
     }
-    if id_check(parametr, value, values_list) != "":
+    if check_id(parametr, value, values_list):
         parametr['value'] = \
-            id_check(parametr, value, values_list)
+            check_id(parametr, value, values_list)
     return temp_value
 
 
-def id_check(parametr, value, values_list):
+def check_id(parametr, value, values_list):
     temp_value = ""
     for values in values_list:
         if parametr['id'] == values['id'] and \
@@ -72,9 +76,9 @@ def validate_bottom(parametr, value, values_list):
                 "id": value['id'],
                 "title": value['title']
             }
-            if id_check(parametr, value, values_list) != "":
+            if check_id(parametr, value, values_list):
                 temp_param['value'] = \
-                    id_check(parametr, value, values_list)
+                    check_id(parametr, value, values_list)
             temp_param['values'].append(temp_child_value)  
     return temp_param
 
@@ -92,9 +96,9 @@ def data_validator(structure_list, values_list):
             temp_parent_param = validate_top(parent_param, values_list)
         else:
             for value in parent_param['values']:
-                if id_check(parent_param, value, values_list) != "":
+                if check_id(parent_param, value, values_list):
                     temp_parent_param['value'] = \
-                        id_check(parent_param, value, values_list)
+                        check_id(parent_param, value, values_list)
                 temp_value = {
                     "id": value['id'],
                     "title": value['title'],
@@ -123,5 +127,4 @@ if __name__ == '__main__':
     data_validator(structure, values)
     with open('StructureWithValues.json', 'w', encoding='utf8') as outfile:
         json.dump(fullfilled, outfile, ensure_ascii=False)
-    # print(json.dumps(fullfilled, indent=4))
-    print(load_file("Values.json"))
+    #print(json.dumps(fullfilled, indent=4))
