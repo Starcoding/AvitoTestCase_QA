@@ -117,14 +117,13 @@ def data_validator(structure_list, values_list):
 
 
 def save_file(data):
-    with open("StructureWithValues.json", "w") as output_file:
-        json.dump(data, output_file)
+    with open("StructureWithValues.json", "w", encoding='utf8') as output_file:
+        json.dump(data, output_file, ensure_ascii=False)
 
 
 if __name__ == '__main__':
     structure = load_file("TestcaseStructure.json")
     values = load_file("Values.json")
     data_validator(structure, values)
-    with open('StructureWithValues.json', 'w', encoding='utf8') as outfile:
-        json.dump(fullfilled, outfile, ensure_ascii=False)
+    save_file(fullfilled)
     #print(json.dumps(fullfilled, indent=4))
