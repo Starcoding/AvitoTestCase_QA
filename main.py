@@ -114,7 +114,7 @@ def data_validator(structure_list, values_list):
                         validate_middle(parent_param, value, values_list)
                     temp_parent_param['values'].append(temp_value)
         fullfilled['params'].append(temp_parent_param)
-
+    return fullfilled
 
 def save_file(data):
     with open("StructureWithValues.json", "w", encoding='utf8') as output_file:
@@ -124,6 +124,6 @@ def save_file(data):
 if __name__ == '__main__':
     structure = load_file("TestcaseStructure.json")
     values = load_file("Values.json")
-    data_validator(structure, values)
-    save_file(fullfilled)
-    #print(json.dumps(fullfilled, indent=4))
+    result = data_validator(structure, values)
+    save_file(result)
+    #print(json.dumps(result, indent=4))
